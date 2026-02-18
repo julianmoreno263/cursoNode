@@ -4,20 +4,24 @@ const fs=require("fs")
 
 
 //para manejar esto pero con promesas puedo simplemente pasar esto a async y este ya me retorna una promesa,todo dentro de try catch para  manejar el error
-const crearArchivo=async(base=5)=>{
+const crearArchivo=async(base=5,listar=false)=>{
     let salida=""
 
     try {
-        console.log(`------ TABLA DEL ${base} --------`)
-
+        
         for (let i = 0; i <=10; i++) {
                 const resultado=base*i
 
                 salida+=`${base} x ${i} = ${resultado}\n`
                 
         }
+        
+        if (listar) {
+            console.log(`------ TABLA DEL ${base} --------`)
+            console.log(salida)
+        }
 
-        console.log(salida)
+        // console.log(salida)
 
         fs.writeFileSync(`tabla-${base}.txt`,salida)
 

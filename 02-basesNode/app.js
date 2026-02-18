@@ -23,14 +23,36 @@
 
 
 const{crearArchivo}=require("./helpers/multiplicar")
-const argv = require('yargs/yargs')(process.argv.slice(2)).argv;
+const argv = require('yargs/yargs')(process.argv.slice(2))
+                .option('b', {
+                    alias: 'base',
+                    demandOption: true,
+                    default: '/etc/passwd',
+                    describe: 'x marks the spot',
+                    type: 'number'
+                })
+                .option('l', {
+                    alias: 'listar',
+                    demandOption: false,
+                    default: false,
+                    describe: 'x marks the spot',
+                    type: 'boolean'
+                })
+                .check((argv, options) => {
+                    const filePaths = argv._
+                    if (isNaN(argv.b)) {
+                    throw "La base tiene que ser un número"
+                    } else {
+                        return true 
+                    }
+                })
+                .argv;
 
 console.clear()
 
-console.log(process.argv)
 console.log(argv)
 
-console.log("base:yargs",argv.base)
+
 
 
 //este codigo me sirve para pasar el argumento base por consola,puedo indicarle por consola que numero quiero que saque la tabla de multiplicar, aqui usamos el process.argv,que son los argumentos. Pero esta forma es mas complicada,puedo utilizar el paquete yargs para hacer esto mas facil
@@ -38,11 +60,11 @@ console.log("base:yargs",argv.base)
 // const[,base=5]=arg3.split("=")
 // console.log(base)
 
-// const base=5
 
-// crearArchivo(base)
-// .then(nombreArchivo=>console.log(nombreArchivo, "creado"))
-// .catch(err=>console.log(err))
+
+crearArchivo(argv.b,argv.l)
+.then(nombreArchivo=>console.log(nombreArchivo, "creado"))
+.catch(err=>console.log(err))
 
 
 //grabar archivos en node, vamos a grabar nuestra salida, el primer argumento sera la ruta del archivo que vamos a grabar, si no se especifica node toma la ruta del archivo donde estamos parados por defecto y no se escribe. El segundo argumento es el nombre del archivo que queremos darle a donde vamos a grabar,el tercer argumento son los datos a grabar,osea nuestra salida, y por ultimo una funcion callback que en este caso maneja el error si lo hay, esto con writeFile, con writeFileSync no hay callback
