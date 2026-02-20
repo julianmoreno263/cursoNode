@@ -23,36 +23,12 @@
 
 
 const{crearArchivo}=require("./helpers/multiplicar")
-const argv = require('yargs/yargs')(process.argv.slice(2))
-                .option('b', {
-                    alias: 'base',
-                    demandOption: true,
-                    default: '/etc/passwd',
-                    describe: 'x marks the spot',
-                    type: 'number'
-                })
-                .option('l', {
-                    alias: 'listar',
-                    demandOption: false,
-                    default: false,
-                    describe: 'x marks the spot',
-                    type: 'boolean'
-                })
-                .check((argv, options) => {
-                    const filePaths = argv._
-                    if (isNaN(argv.b)) {
-                    throw "La base tiene que ser un número"
-                    } else {
-                        return true 
-                    }
-                })
-                .argv;
+const argv=require("./config/yargs")
+
+require("colors")
+
 
 console.clear()
-
-console.log(argv)
-
-
 
 
 //este codigo me sirve para pasar el argumento base por consola,puedo indicarle por consola que numero quiero que saque la tabla de multiplicar, aqui usamos el process.argv,que son los argumentos. Pero esta forma es mas complicada,puedo utilizar el paquete yargs para hacer esto mas facil
@@ -62,8 +38,8 @@ console.log(argv)
 
 
 
-crearArchivo(argv.b,argv.l)
-.then(nombreArchivo=>console.log(nombreArchivo, "creado"))
+crearArchivo(argv.b,argv.l, argv.h)
+.then(nombreArchivo=>console.log(nombreArchivo.rainbow, "creado"))
 .catch(err=>console.log(err))
 
 

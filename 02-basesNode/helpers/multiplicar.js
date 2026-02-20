@@ -1,29 +1,33 @@
 
 //el paquete fs ya viene con node
 const fs=require("fs")
+const colors=require("colors")
 
 
 //para manejar esto pero con promesas puedo simplemente pasar esto a async y este ya me retorna una promesa,todo dentro de try catch para  manejar el error
-const crearArchivo=async(base=5,listar=false)=>{
+const crearArchivo=async(base=5,listar=false,hasta=10)=>{
     let salida=""
+    let consola=""
 
     try {
         
-        for (let i = 0; i <=10; i++) {
+        for (let i = 0; i <=hasta; i++) {
                 const resultado=base*i
 
-                salida+=`${base} x ${i} = ${resultado}\n`
+                salida+=`${base} X ${i} = ${resultado}\n`
+                consola+=`${base} ${'X'.green} ${i} ${'='.green} ${resultado}\n`
+
                 
         }
         
         if (listar) {
-            console.log(`------ TABLA DEL ${base} --------`)
+            console.log(`${'------'.green} TABLA DEL ${colors.blue(base)} ${'------'.green}`)
             console.log(salida)
         }
 
         // console.log(salida)
 
-        fs.writeFileSync(`tabla-${base}.txt`,salida)
+        fs.writeFileSync(`./salida/tabla-${base}.txt`,salida)
 
         return `tabla-${base}.txt`
         
