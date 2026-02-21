@@ -1,4 +1,5 @@
 const inquirer=require("inquirer");
+const { validate } = require("uuid");
 
 require("colors")
 
@@ -71,11 +72,33 @@ const pausa=async()=>{
 
 }
 
+const leerInput=async(message)=>{
+    const pregunta=[
+        {
+            type: 'input',
+            name: 'desc',
+            message,
+            validate(value){
+                if (value.length===0) {
+                    return "Por favor ingrese un valor"
+                } 
+                return true
+            }
+        }
+    ]
+
+    const{desc}=await inquirer.prompt(pregunta)
+
+    return desc
+
+}
+
 
 
 
 
 module.exports={
     inquirerMenu,
-    pausa
+    pausa,
+    leerInput
 }
