@@ -1,21 +1,23 @@
 //app de tareas
 require("colors")
 
-
-const { mostrarMenu, pausa } = require("./helpers/mensajes");
-
-
-
-
+const { inquirerMenu,pausa} = require("./helpers/inquirer");
+const Tareas = require("./models/tareas");
 
 console.clear()
 
+let opt=""
+
 const main=async()=>{
-    console.log("Hola mundo")
 
-    mostrarMenu()
+    do {
+        opt=await inquirerMenu()
+        console.log({opt})
 
-    // pausa()
+        await pausa()
+        
+    } while (opt!=="0");
+
 }
 
 

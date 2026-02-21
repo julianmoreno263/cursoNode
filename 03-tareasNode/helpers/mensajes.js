@@ -1,43 +1,53 @@
+
+
 require("colors")
 
 
 const mostrarMenu=()=>{
-    console.clear()
 
-    console.log("=====================".green)
-    console.log("SELECCIONE UNA OPCIÓN".green)
-    console.log("=====================\n".green)
+    return new Promise(resolve=>{
 
-    console.log(`${'1.'.green} Crear tarea`)
-    console.log(`${'2.'.green} Listar tareas`)
-    console.log(`${'3.'.green} Listar tareas completadas`)
-    console.log(`${'4.'.green} Listar tareas pendientes`)
-    console.log(`${'5.'.green} Completar tarea(s)`)
-    console.log(`${'6.'.green} Borrar tarea`)
-    console.log(`${'0.'.green} Salir \n`)
+        console.clear()
+        console.log("=====================".green)
+        console.log("SELECCIONE UNA OPCIÓN".green)
+        console.log("=====================\n".green)
 
-    //recibir entrada del usuario
-    const readLine=require('readline').createInterface({
-        input:process.stdin,
-        output:process.stdout
+        console.log(`${'1.'.green} Crear tarea`)
+        console.log(`${'2.'.green} Listar tareas`)
+        console.log(`${'3.'.green} Listar tareas completadas`)
+        console.log(`${'4.'.green} Listar tareas pendientes`)
+        console.log(`${'5.'.green} Completar tarea(s)`)
+        console.log(`${'6.'.green} Borrar tarea`)
+        console.log(`${'0.'.green} Salir \n`)
+
+        //recibir entrada del usuario
+        const readLine=require('readline').createInterface({
+            input:process.stdin,
+            output:process.stdout
+        })
+
+        readLine.question("Seleccione una opción: ",(opt)=>{
+            readLine.close()
+            resolve(opt)
+        })
     })
-
-    readLine.question("Seleccione una opción: ",(opt)=>{
-        readLine.close()
-    })
-
 
 }
 
 const pausa=()=>{
-    const readLine=require('readline').createInterface({
+
+    return new Promise(resolve=>{
+        const readLine=require('readline').createInterface({
         input:process.stdin,
         output:process.stdout
-    })
+        })
 
-    readLine.question(`\nPresione ${'ENTER'.green} para continuar\n`,(opt)=>{
-        readLine.close()
+        readLine.question(`\nPresione ${'ENTER'.green} para continuar\n`,(opt)=>{
+            readLine.close()
+            resolve()
+        })
     })
+    
 }
 
 
