@@ -1,17 +1,34 @@
 //app de tareas
 require("colors")
 
+const { guardarDb, leerDb } = require("./helpers/guardarArchivo");
 const { inquirerMenu,pausa,leerInput} = require("./helpers/inquirer");
 const Tareas = require("./models/tareas");
 
-console.clear()
+// console.clear()
 
-let opt=""
-const tareas=new Tareas()
+
+
 
 const main=async()=>{
 
+    let opt=""
+    const tareas=new Tareas()
+
+
+    //aqui usamos la funcion para leer las tareas
+    const tareasDb=leerDb()
+
+    if (tareasDb) {
+        //establecer las tareas
+        
+    }
+
+    await pausa()
+
     do {
+
+        //imprimir menu con esta funcion
         opt=await inquirerMenu()
 
         switch (opt) {
@@ -23,11 +40,14 @@ const main=async()=>{
             break;
 
             case "2":
-                console.log(tareas._listado)
+                console.log(tareas.listadoArr)
             break;
         
             
         }
+
+        //guardamos la informacion en nuestro archivo de db
+        // guardarDb(tareas.listadoArr)
 
         await pausa()
         
