@@ -22,6 +22,13 @@ class Tareas{
 
     constructor(){
         this._listado={}
+
+    }
+
+    cargarTareasFromArray(tareas=[]){
+        tareas.forEach(tarea=>{
+            this._listado[tarea.id]=tarea
+        })
     }
 
     crearTarea(desc){
@@ -30,6 +37,46 @@ class Tareas{
         //la agregamos a la lista de tareas
         this._listado[tarea.id]=tarea
     }
+
+    listadoCompleto(){
+        console.log()
+        this.listadoArr.forEach((tarea, i) => {
+            const idx = `${i + 1}.`.green
+            const { desc, completadoEn } = tarea; //destructuracion
+            
+            // 2. Definimos el estado (Completado / Pendiente)
+            const estado = (completadoEn!=null) ? 'Completada'.green : 'Pendiente'.red;    
+
+            // 3. Imprimimos el resultado formateado
+            console.log(`${idx} ${desc} :: ${estado}`);
+        });
+    }
+
+    listarPendientesCompletadas(completadas=true){
+        console.log()
+        let idx=0
+        this.listadoArr.forEach((tarea) => {
+            
+            const { desc, completadoEn } = tarea; //destructuracion
+            const estado = (completadoEn!=null) ? 'Completada'.green : 'Pendiente'.red;   
+
+            if (completadas) {
+                //mostrar completadas
+                if (completadoEn) {
+                    idx+=1
+                    console.log(`${(idx + ".").green} ${desc} :: ${completadoEn}`);
+                }                
+            }else{
+                //mostrar pendientes
+                if (!completadoEn) {
+                    idx+=1
+                    console.log(`${(idx + ".").green} ${desc} :: ${estado}`);
+                }  
+            }
+            
+        });
+    }
+    
 
 }
 

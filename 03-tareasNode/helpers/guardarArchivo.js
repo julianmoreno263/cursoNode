@@ -23,7 +23,7 @@ const leerDb=()=>{
     const info=fs.readFileSync(archivo,{encoding:"utf8"})
     //aqui paso la informacion del archivo db a un objeto porque en este punto sigue siendo un string(porque al grabar la info lo hacemos como string con JSON.stringify())
     const data=JSON.parse(info)
-    console.log(data)
+    // console.log(data)
 
     return data
 }

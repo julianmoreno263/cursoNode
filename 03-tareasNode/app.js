@@ -20,11 +20,11 @@ const main=async()=>{
     const tareasDb=leerDb()
 
     if (tareasDb) {
-        //establecer las tareas
+        //TODO:cargarTareas
+        tareas.cargarTareasFromArray(tareasDb)
         
     }
 
-    await pausa()
 
     do {
 
@@ -40,14 +40,22 @@ const main=async()=>{
             break;
 
             case "2":
-                console.log(tareas.listadoArr)
+                tareas.listadoCompleto()
+            break;
+
+            case "3"://listar completadas
+                tareas.listarPendientesCompletadas(true)
+            break;
+
+             case "4"://listar pendientes
+                tareas.listarPendientesCompletadas(false)
             break;
         
             
         }
 
         //guardamos la informacion en nuestro archivo de db
-        // guardarDb(tareas.listadoArr)
+        guardarDb(tareas.listadoArr)
 
         await pausa()
         
