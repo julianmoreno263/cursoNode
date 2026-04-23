@@ -1,0 +1,53 @@
+
+
+require("colors")
+
+
+const mostrarMenu=()=>{
+
+    return new Promise(resolve=>{
+
+        console.clear()
+        console.log("=====================".green)
+        console.log("SELECCIONE UNA OPCIÓN".green)
+        console.log("=====================\n".green)
+
+        console.log(`${'1.'.green} Buscar ciudad`)
+        console.log(`${'2.'.green} Historial`)
+        console.log(`${'0.'.green} Salir \n`)
+
+        //recibir entrada del usuario
+        const readLine=require('readline').createInterface({
+            input:process.stdin,
+            output:process.stdout
+        })
+
+        readLine.question("Seleccione una opción: ",(opt)=>{
+            readLine.close()
+            resolve(opt)
+        })
+    })
+
+}
+
+const pausa=()=>{
+
+    return new Promise(resolve=>{
+        const readLine=require('readline').createInterface({
+        input:process.stdin,
+        output:process.stdout
+        })
+
+        readLine.question(`\nPresione ${'ENTER'.green} para continuar\n`,(opt)=>{
+            readLine.close()
+            resolve()
+        })
+    })
+    
+}
+
+
+module.exports={
+    mostrarMenu,
+    pausa
+}
