@@ -1,9 +1,12 @@
+const fs=require("fs")
+
 const axios = require('axios');
 
 
 class Busquedas{
 
-    historial=["Tegucigalpa","Madrid","San José"]
+    historial=[]
+    dbPath="./db/database.json"
 
     constructor(){
         //leer db si existe
@@ -15,6 +18,15 @@ class Busquedas{
             "language":"es",
             "limit":3,
             "key": process.env.MAPTILER_KEY
+        }
+    }
+
+    //funcion getter para traer los params de la api openWeather
+    get paramsOpenWeather(){
+        return {
+            "appid": process.env.OPENWEATHER_KEY,
+            "units":"metric",
+            "lang":"es"
         }
     }
 
@@ -54,6 +66,64 @@ class Busquedas{
         }
 
         
+    }
+
+    //funcion para capturar datos del clima de la ciudad elegida
+    async climaCiudad(lat,lon){
+        try {
+            
+            //instancia axios.create()
+            const instance=axios.create({
+                baseURL: `https://api.openweathermap.org/data/2.5/weather`,
+                // Combinamos los params fijos del getter con los valores reales de lat y lon
+                params: { ...this.paramsOpenWeather, lat, lon }
+            })
+
+            const resp=await instance.get()
+
+            // Extraemos la data necesaria
+            const { weather, main } = resp.data;
+
+            return {
+                id: weather[0].id,
+                desc: weather[0].description,
+                min: main.temp_min,
+                max: main.temp_max,
+                temp: main.temp
+            };
+            
+           
+        } catch (error) {
+            console.log("Error al obtener el clima:", error.response?.data || error.message);
+        }
+    }
+
+    agregarHistorial(ciudad=""){
+        //prevenir duplicados,si ya existe se retorna,osea no se ejecuta nada,pero si no existe se graba
+        if (this.historial.includes(ciudad.toLocaleLowerCase())) {
+            return
+        }
+
+        //agregar la ciudad al historial
+        this.historial.unshift(ciudad)
+
+        //grabar en db
+        this.guardarDB()
+
+    }
+
+    guardarDB(){
+
+        const payload={
+            historial:this.historial
+        }
+
+        fs.writeFileSync(this.dbPath,JSON.stringify(payload))
+
+    }
+
+    leerDB(){
+
     }
 
 }
